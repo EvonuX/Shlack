@@ -143,6 +143,12 @@ class MessageForm extends React.Component {
       });
   };
 
+  handleKeyPress = event => {
+    if (event.key === "Enter") {
+      this.sendMessage();
+    }
+  };
+
   render() {
     // prettier-ignore
     const { errors, message, loading, modal, uploadState, percentUploaded } = this.state;
@@ -153,6 +159,7 @@ class MessageForm extends React.Component {
           fluid
           name="message"
           onChange={this.handleChange}
+          onKeyPress={this.handleKeyPress}
           value={message}
           style={{ marginBottom: "0.7em" }}
           label={<Button icon={"add"} />}

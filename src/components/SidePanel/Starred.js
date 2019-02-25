@@ -18,6 +18,14 @@ class Starred extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    this.removeListener();
+  }
+
+  removeListener = () => {
+    this.state.usersRef.child(`${this.state.user.uid}/starred`).off();
+  };
+
   addListeners = userId => {
     this.state.usersRef
       .child(userId)
@@ -72,7 +80,7 @@ class Starred extends React.Component {
       <Menu.Menu className="menu">
         <Menu.Item>
           <span>
-            <Icon name="star" /> STARRED
+            <Icon name="star" /> STARRED{" "}
           </span>{" "}
           ({starredChannels.length})
         </Menu.Item>

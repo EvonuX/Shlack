@@ -26,7 +26,7 @@ class Messages extends React.Component {
     searchResults: [],
     typingRef: firebase.database().ref("typing"),
     typingUsers: [],
-    connectedRef: firebase.database().ref("info/connected")
+    connectedRef: firebase.database().ref(".info/connected")
   };
 
   componentDidMount() {
@@ -54,6 +54,7 @@ class Messages extends React.Component {
         this.setState({ typingUsers });
       }
     });
+
     this.state.typingRef.child(channelId).on("child_removed", snap => {
       const index = typingUsers.findIndex(user => user.id === snap.key);
       if (index !== -1) {
@@ -61,6 +62,7 @@ class Messages extends React.Component {
         this.setState({ typingUsers });
       }
     });
+
     this.state.connectedRef.on("value", snap => {
       if (snap.val() === true) {
         this.state.typingRef
@@ -211,21 +213,16 @@ class Messages extends React.Component {
       : "";
   };
 
-  displayTypingUsers = users => {
+  displayTypingUsers = users =>
     users.length > 0 &&
-      users.map(user => {
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            marginBottom: "0.2em"
-          }}
-          key={user.id}
-        >
-          <span className="user__typing">{user.name} is typing</span> <Typing />
-        </div>;
-      });
-  };
+    users.map(user => (
+      <div
+        style={{ display: "flex", alignItems: "center", marginBottom: "0.2em" }}
+        key={user.id}
+      >
+        <span className="user__typing">{user.name} is typing</span> <Typing />
+      </div>
+    ));
 
   render() {
     // prettier-ignore
